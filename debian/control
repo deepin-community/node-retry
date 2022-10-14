@@ -1,0 +1,25 @@
+Source: node-retry
+Section: javascript
+Priority: optional
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Jérémy Lal <kapouer@melix.org>,
+           Paolo Greppi <paolo.greppi@libpf.com>
+Build-Depends: debhelper-compat (= 13)
+ , dh-sequence-nodejs
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/js-team/node-retry
+Vcs-Git: https://salsa.debian.org/js-team/node-retry.git
+Homepage: https://github.com/tim-kos/node-retry
+Testsuite: autopkgtest-pkg-nodejs
+Rules-Requires-Root: no
+
+Package: node-retry
+Architecture: all
+Depends: ${misc:Depends}
+Multi-Arch: foreign
+Description: Retry strategies for failed operations module for Node.js
+ node-retry abstracts exponential and custom retry strategies for failed
+ operations. Its parameters are the number of retries, exponential
+ factor, minimum and maximum (randomized) timeouts.
+ .
+ Node.js is an event-based server-side javascript engine.

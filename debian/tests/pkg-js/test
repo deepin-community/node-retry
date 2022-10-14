@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+nodejs test/integration/test-forever.js    
+nodejs test/integration/test-retry-operation.js 
+nodejs test/integration/test-retry-wrap.js 
+nodejs test/integration/test-timeouts.js

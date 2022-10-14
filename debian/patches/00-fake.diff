@@ -1,0 +1,98 @@
+Description: Patch away fake-based tests since we don't have this
+ module in Debian yet.
+Forwarded: not-needed
+Author: Paolo Greppi <paolo.greppi@libpf.com>
+
+Index: node-retry/test/common.js
+===================================================================
+--- node-retry.orig/test/common.js
++++ node-retry/test/common.js
+@@ -7,4 +7,3 @@ common.dir = {
+ };
+ 
+ common.assert = require('assert');
+-common.fake = require('fake');
+\ No newline at end of file
+Index: node-retry/test/integration/test-retry-operation.js
+===================================================================
+--- node-retry.orig/test/integration/test-retry-operation.js
++++ node-retry/test/integration/test-retry-operation.js
+@@ -1,16 +1,13 @@
+ var common = require('../common');
+ var assert = common.assert;
+-var fake = common.fake.create();
+ var retry = require(common.dir.lib + '/retry');
++function finalCallback() {}
+ 
+ (function testReset() {
+   var error = new Error('some error');
+   var operation = retry.operation([1, 2, 3]);
+   var attempts = 0;
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var expectedFinishes = 1;
+   var finishes         = 0;
+ 
+@@ -96,9 +93,6 @@ var retry = require(common.dir.lib + '/r
+   var operation = retry.operation([1, 2, 3]);
+   var attempts = 0;
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var fn = function() {
+     operation.attempt(function(currentAttempt) {
+       attempts++;
+@@ -122,9 +116,6 @@ var retry = require(common.dir.lib + '/r
+   var operation = retry.operation({ retries: 3, forever: true });
+   var attempts = 0;
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var fn = function() {
+     operation.attempt(function(currentAttempt) {
+       attempts++;
+@@ -156,9 +147,6 @@ var retry = require(common.dir.lib + '/r
+   var attempts = 0;
+   var startTime = new Date().getTime();
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var fn = function() {
+     operation.attempt(function(currentAttempt) {
+       attempts++;
+@@ -187,9 +175,6 @@ var retry = require(common.dir.lib + '/r
+   var operation = retry.operation([1, 2, 3]);
+   var attempts = 0;
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var fn = function() {
+     operation.attempt(function(currentAttempt) {
+       attempts++;
+@@ -222,9 +207,6 @@ var retry = require(common.dir.lib + '/r
+   });
+   var attempts = 0;
+ 
+-  var finalCallback = fake.callback('finalCallback');
+-  fake.expectAnytime(finalCallback);
+-
+   var longAsyncFunction = function (wait, callback){
+     setTimeout(callback, wait);
+   };
+Index: node-retry/test/integration/test-retry-wrap.js
+===================================================================
+--- node-retry.orig/test/integration/test-retry-wrap.js
++++ node-retry/test/integration/test-retry-wrap.js
+@@ -1,6 +1,5 @@
+ var common = require('../common');
+ var assert = common.assert;
+-var fake = common.fake.create();
+ var retry = require(common.dir.lib + '/retry');
+ 
+ function getLib() {
